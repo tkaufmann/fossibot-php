@@ -121,8 +121,11 @@ cp config.php config.local.php
 <?php
 require_once 'SydpowerClient.php';
 
-// Initialize client
+// Option 1: Initialize with credentials
 $client = new SydpowerClient('your-email@example.com', 'your-password');
+
+// Option 2: Initialize with config.local.php (recommended)
+$client = new SydpowerClient(); // Loads from config.local.php
 
 // Authenticate (uses cache when available)
 $client->authenticate();

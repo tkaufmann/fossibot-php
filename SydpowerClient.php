@@ -20,9 +20,22 @@ class SydpowerClient {
     private $mqttConnected = false;
     private $tokenCache;
     
-    public function __construct($username, $password) {
-        $this->username = $username;
-        $this->password = $password;
+    public function __construct($username = null, $password = null) {
+        // Try to load from config if no credentials provided
+        if ($username === null || $password === null) {
+            $configPath = __DIR__ . '/config.local.php';
+            if (file_exists($configPath)) {
+                $config = require $configPath;
+                $this->username = $config['username'] ?? throw new Exception("Username not found in config.local.php");
+                $this->password = $config['password'] ?? throw new Exception("Password not found in config.local.php");
+            } else {
+                throw new Exception("No credentials provided and config.local.php not found");
+            }
+        } else {
+            $this->username = $username;
+            $this->password = $password;
+        }
+        
         $this->deviceId = strtoupper(bin2hex(random_bytes(16)));
         
         // Include required classes
@@ -30,7 +43,7 @@ class SydpowerClient {
         require_once __DIR__ . '/ModbusHelper.php';
         require_once __DIR__ . '/TokenCache.php';
         
-        $this->tokenCache = new TokenCache($username);
+        $this->tokenCache = new TokenCache($this->username);
     }
     
     private function generateClientInfo() {
