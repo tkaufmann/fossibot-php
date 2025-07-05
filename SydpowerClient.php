@@ -358,9 +358,11 @@ class SydpowerClient {
         $this->devices[$deviceMac]['soc'] = round(($registers[56] / 1000) * 100, 1);
         $this->devices[$deviceMac]['totalInput'] = $registers[6];
         $this->devices[$deviceMac]['totalOutput'] = $registers[39];
-        $this->devices[$deviceMac]['usbOutput'] = $activeOutputs[6] == '1';
-        $this->devices[$deviceMac]['dcOutput'] = $activeOutputs[5] == '1';
-        $this->devices[$deviceMac]['acOutput'] = $activeOutputs[4] == '1';
+        // Corrected bit assignments based on real device testing:
+        // Fixed: Original bit assignments were incorrect for F2400 devices
+        $this->devices[$deviceMac]['acOutput'] = $activeOutputs[11] == '1';  // Bit[11] = AC Output
+        $this->devices[$deviceMac]['usbOutput'] = $activeOutputs[9] == '1';  // Bit[9] = USB Output  
+        $this->devices[$deviceMac]['dcOutput'] = $activeOutputs[10] == '1';  // Bit[10] = DC Output
         $this->devices[$deviceMac]['ledOutput'] = $activeOutputs[3] == '1';
         
         echo "Status update for {$deviceMac}: SOC={$this->devices[$deviceMac]['soc']}%, Input={$registers[6]}W, Output={$registers[39]}W\n";
