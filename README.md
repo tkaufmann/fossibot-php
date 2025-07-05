@@ -107,8 +107,8 @@ flowchart TD
 
 ```bash
 # Clone this repository
-git clone https://github.com/yourusername/fossibot-php-control.git
-cd fossibot-php-control
+git clone https://github.com/tkaufmann/fossibot-php.git
+cd fossibot-php
 
 # Copy configuration
 cp config.php config.local.php
