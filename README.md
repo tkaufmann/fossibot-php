@@ -35,7 +35,7 @@ graph TB
     end
     
     subgraph "Device"
-        Device["Fossibot F2400/F3600"]
+        FossiBot["Fossibot F2400/F3600"]
     end
     
     App --> Client
@@ -45,8 +45,8 @@ graph TB
     Client --> API
     MQTT --> MQTTBroker
     API --> Cache
-    MQTTBroker --> Device
-    Device --> MQTTBroker
+    MQTTBroker --> FossiBot
+    FossiBot --> MQTTBroker
 ```
 
 ### Authentication Flow
