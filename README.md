@@ -203,23 +203,26 @@ All commands are validated against device specifications before transmission:
 <?php
 return [
     'username' => 'your-email@example.com',
-    'password' => 'your-password',
-    'device_id' => null, // Auto-detect or specify
-    'bridge_host' => 'localhost',
-    'bridge_port' => 3000
+    'password' => 'your-password'
 ];
 ```
 
 ## 🧪 Testing
 
+**Important**: Make sure to create `config.local.php` with your credentials first!
+
 ```bash
-# Test basic functionality
+# Copy configuration template
+cp config.php config.local.php
+# Edit config.local.php with your credentials
+
+# Test basic functionality (safe commands only)
 php safe-test.php
 
-# Test auto-retry mechanism
+# Test auto-retry mechanism (token invalidation recovery)
 php test-retry.php
 
-# Interactive control
+# Interactive control (full command interface)
 php example-direct.php
 ```
 
@@ -232,6 +235,9 @@ php example-direct.php
 
 ### Manual Cache Management
 ```php
+// Initialize client (loads from config.local.php)
+$client = new SydpowerClient();
+
 // Check token status
 echo $client->getTokenInfo();
 
@@ -256,6 +262,12 @@ $client->clearTokenCache();
 This library is perfect for Home Assistant automation:
 
 ```php
+// Initialize client
+$client = new SydpowerClient();
+$client->authenticate();
+$client->connectMqtt();
+$deviceId = $client->getDeviceIds()[0];
+
 // Morning: Cheap electricity
 $client->sendCommand($deviceId, 'REGMaxChargeCurrent', 20);
 

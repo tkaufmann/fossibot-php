@@ -5,12 +5,5 @@
 
 return [
     'username' => 'your-email@example.com',
-    'password' => 'your-password',
-    
-    // Optional: Device ID if you know it
-    'device_id' => null,
-    
-    // Bridge settings (Node.js server must be running)
-    'bridge_host' => 'localhost',
-    'bridge_port' => 3000
+    'password' => 'your-password'
 ];
