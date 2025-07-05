@@ -1,0 +1,38 @@
+# Environment and configuration files with credentials
+config.local.php
+.env
+.env.local
+*.secret
+
+# Token cache (contains authentication tokens)
+cache/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+
+# OS generated files
+*.tmp
+*.bak
+
+# Composer
+composer.phar
+composer.lock
+
+# PHP specific
+*.phar
