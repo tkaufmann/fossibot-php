@@ -92,8 +92,8 @@ class ModbusHelper {
         self::REGISTER_DISCHARGE_LIMIT => [
             'name' => 'Discharge lower limit',
             'unit' => 'permille',
-            'description' => 'Divide by 10 for 5-50% (app-safe range)',
-            'min' => 50,   // 5%
+            'description' => 'Divide by 10 for 0-50% (0% allowed, manufacturer protection trusted)',
+            'min' => 0,    // 0%
             'max' => 500   // 50%
         ],
         self::REGISTER_CHARGING_LIMIT => [

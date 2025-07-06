@@ -11,7 +11,7 @@ This project was inspired by the original reverse engineering work at [iamslan/f
 - **🔐 Complete Authentication Flow**: Anonymous tokens, login tokens, and MQTT access tokens
 - **⚡ Direct MQTT Communication**: WebSocket-based real-time device control (no Node.js dependency)
 - **🧠 Smart Token Caching**: 24-hour token persistence with automatic refresh
-- **🛡️ Device Safety**: App-safe ranges (charging 60-100%, discharge 5-50%) prevent dangerous commands
+- **🛡️ Device Safety**: Safe ranges (charging 60-100%, discharge 0-50%) with manufacturer protection trusted
 - **🔄 Auto-Recovery**: Automatic re-authentication when app usage invalidates tokens
 - **🏠 USV Mode**: Optimized for UPS/backup power scenarios
 
