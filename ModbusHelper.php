@@ -92,12 +92,16 @@ class ModbusHelper {
         self::REGISTER_DISCHARGE_LIMIT => [
             'name' => 'Discharge lower limit',
             'unit' => 'permille',
-            'description' => 'Divide by 10 for 0>100%'
+            'description' => 'Divide by 10 for 5-50% (app-safe range)',
+            'min' => 50,   // 5%
+            'max' => 500   // 50%
         ],
         self::REGISTER_CHARGING_LIMIT => [
             'name' => 'AC charging upper limit in EPS mode',
             'unit' => 'permille',
-            'description' => 'Divide by 10 for 0>100%'
+            'description' => 'Divide by 10 for 60-100% (app-safe range)',
+            'min' => 600,  // 60%
+            'max' => 1000  // 100%
         ],
         self::REGISTER_SLEEP_TIME => [
             'name' => 'Whole machine unused time',
@@ -191,8 +195,20 @@ class ModbusHelper {
         switch ($regInfo['unit']) {
             case 'permille':
                 $value = intval($value);
-                if ($value < 0 || $value > 1000 || !($value % 10 == 0 || $value % 10 == 5)) {
-                    throw new Exception("CRITICAL: Invalid permille value $originalValue for register '{$regInfo['name']}'. Must be 0-1000 and divisible by 5 or 10. BLOCKING to prevent device damage!");
+                
+                // Check for app-safe ranges if defined
+                if (isset($regInfo['min']) && isset($regInfo['max'])) {
+                    if ($value < $regInfo['min'] || $value > $regInfo['max']) {
+                        throw new Exception("CRITICAL: Invalid permille value $originalValue for register '{$regInfo['name']}'. Must be {$regInfo['min']}-{$regInfo['max']} (app-safe range). BLOCKING to prevent device damage!");
+                    }
+                } else {
+                    if ($value < 0 || $value > 1000) {
+                        throw new Exception("CRITICAL: Invalid permille value $originalValue for register '{$regInfo['name']}'. Must be 0-1000. BLOCKING to prevent device damage!");
+                    }
+                }
+                
+                if (!($value % 10 == 0 || $value % 5 == 0)) {
+                    throw new Exception("CRITICAL: Invalid permille value $originalValue for register '{$regInfo['name']}'. Must be divisible by 5. BLOCKING to prevent device damage!");
                 }
                 break;
                 
